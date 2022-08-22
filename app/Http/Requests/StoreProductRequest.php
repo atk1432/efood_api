@@ -34,6 +34,7 @@ class StoreProductRequest extends CustomFormRequest
             'price' => 'required|integer',
             'image' => 'required|max:200',
             'description' => 'nullable|max:200',
+            'types' => 'required'
         ];
     }
 

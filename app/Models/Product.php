@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Type;
+
+
 class Product extends Model
 {
     use HasFactory;
@@ -22,6 +25,11 @@ class Product extends Model
 
         if (!$product) return [];
 
-        return $product->toArray();
+        return $product;
+    }
+
+    public function types() 
+    {
+        return $this->belongsToMany(Type::class);
     }
 }

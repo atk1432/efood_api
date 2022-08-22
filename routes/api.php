@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocialAuthController;
-
+use App\Http\Controllers\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,8 @@ use App\Http\Controllers\SocialAuthController;
 
 
 Route::apiResource('products', ProductController::class);
+Route::apiResource('types', TypeController::class);
+
 
 Route::prefix('auth')
 ->controller(SocialAuthController::class)

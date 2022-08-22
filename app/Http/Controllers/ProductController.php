@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductCollection;
+use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\Type;
+use Carbon\Carbon;
 
 
 class ProductController extends Controller
@@ -16,10 +20,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // return ProductCollection::collection(Product::all());
-        return Product::all()->toArray();
+        return ProductCollection::collection(Product::all());
+        // return Product::all()->toArray();
+        // return $request->all();
     }
 
     /**
@@ -41,8 +46,28 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {   
         $validated = $request->validated();
+        $now = Carbon::now();
+        
+        // return $validated;
+        $check_exist_errors = Type::check_exist($validated['types']);
 
-        Product::create($validated);
+        if ($check_exist_errors['success'] != true) 
+        {   
+            return $check_exist_errors;
+        }
+
+        $product = Product::create($validated);
+
+        DB::table('product_type')->insert(
+            array_map(function ($data) use ($now, $product) {
+                return [
+                    'product_id' => $product->id,
+                    'type_id' => $data->id,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ];
+            }, $check_exist_errors['data'])
+        );
 
         return [ 'success' => true ];
     }
@@ -57,7 +82,7 @@ class ProductController extends Controller
     {  
         $product = Product::findApi($product);
 
-        return $product;
+        return new ProductCollection($product);
     }
 
     /**
@@ -78,15 +103,40 @@ class ProductController extends Controller
      * @param  int  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $product)
+    public function update(UpdateProductRequest $request, $product)
     {
-        // $validated = $request->validated();
+        $validated = $request->validated();
+        $now = Carbon::now();
 
         $product = Product::find($product);
 
         if (!$product) return ['success' => false, 'errors' => 'Not found'];
 
-        $product->update($request->all());
+        $product->update($validated);
+
+        if ($validated != NULL && !empty($validated['types']) ) {
+            $check_exist_errors = Type::check_exist($validated['types']);
+
+            if ($check_exist_errors['success'] != true) 
+            {   
+                return $check_exist_errors;
+            }
+
+            DB::table('product_type')
+                ->where('product_id', $product->id)
+                ->delete();
+
+            DB::table('product_type')->insert(
+                array_map(function ($data) use ($now, $product) {
+                    return [
+                        'product_id' => $product->id,
+                        'type_id' => $data->id,
+                        'created_at' => $now,
+                        'updated_at' => $now
+                    ];
+                }, $check_exist_errors['data'])
+            );
+        }
 
         return [ 'success' => true ];
     }
