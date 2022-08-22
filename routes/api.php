@@ -37,6 +37,6 @@ Route::prefix('auth')
 
 });
 
-Route::get('/test', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return auth()->user();
 })->middleware('auth:api');

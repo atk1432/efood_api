@@ -20,6 +20,17 @@ class UserSocial extends Authenticatable implements JWTSubject
         'user_social_id'
     ];
 
+    protected $hidden = [
+        'id',
+        'access_token',
+        'refresh_token',
+        'user_social_id',
+        'role',
+        'provider',
+        'created_at',
+        'updated_at'
+    ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
