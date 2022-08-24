@@ -40,7 +40,15 @@ class SocialAuthController extends Controller
 
         $token = auth()->login($user);
 
-        return [ 'token' => $token ];  
+        return [ 
+            'token' => $token,
+            // 'refresh_token' => auth()->refresh()
+        ];  
+    }
+
+    public function get_refresh_token(Request $request)
+    {
+        return [ 'token' => auth()->refresh($request->get('token')) ];
     }
 
 }

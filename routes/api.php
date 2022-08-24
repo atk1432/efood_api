@@ -32,8 +32,11 @@ Route::prefix('auth')
     Route::get('/google/redirect', 'google_redirect')->name('google');
     Route::get('/google/callback', 'google_callback')->name('google');
 
-
     // Facebook
+
+
+    // Get refresh token
+    Route::get('/refresh', 'get_refresh_token')->name('get_refresh_token');
 
 });
 
