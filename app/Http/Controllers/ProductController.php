@@ -22,9 +22,17 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return ProductCollection::collection(Product::all());
-        // return Product::all()->toArray();
-        // return $request->all();
+        $validated = $request->validate([
+            'offset' => 'required|integer|min:0',
+            'limit' => 'nullable|integer|min:0|max:20'
+        ]);
+
+
+        $products = Product::offset($validated['offset'])
+                ->limit($validated['limit'] ?? 6)
+                ->get();
+
+        return ProductCollection::collection($products);
     }
 
     /**
