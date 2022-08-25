@@ -41,6 +41,10 @@ Route::prefix('auth')
     // Get refresh token
     Route::get('/refresh', 'get_refresh_token')->name('get_refresh_token');
 
+
+    // Logout
+    Route::get('/logout', 'logout')->name('logout');
+
 });
 
 Route::get('/user', function (Request $request) {

@@ -53,4 +53,10 @@ class SocialAuthController extends Controller
         ];
     }
 
+    public function logout() 
+    {
+        auth()->logout();
+
+        return [ 'success' => true ];
+    }
 }

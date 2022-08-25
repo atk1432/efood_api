@@ -23,7 +23,7 @@ class CommentResource extends JsonResource
             'rate' => $this->rate,
             'like' => $this->like,
             'dislike' => $this->dislike,
-            'user' => new UserResource(UserSocial::find($this->yser_id)),
+            'user' => new UserResource(UserSocial::find($this->user_id)),
         ];
     }
 }
