@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Type;
+use App\Models\Comment;
 
 
 class Product extends Model
@@ -31,5 +32,10 @@ class Product extends Model
     public function types() 
     {
         return $this->belongsToMany(Type::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\TypeController;
 
 
 Route::apiResource('products', ProductController::class);
+Route::apiResource('products.comments', CommentController::class);
+
 Route::apiResource('types', TypeController::class);
 
 
