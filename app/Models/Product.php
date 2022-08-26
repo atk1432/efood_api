@@ -36,6 +36,17 @@ class Product extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function other_comments() 
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function my_comments()
+    {
+        return $this->hasMany(Comment::class)
+                    ->where('user_id', auth()->user()->id)->latest();
     }
 }

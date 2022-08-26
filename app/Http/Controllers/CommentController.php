@@ -13,7 +13,9 @@ class CommentController extends Controller
 
     public function __construct() 
     {
-        $this->middleware('auth:api')->except('index');
+        $this->middleware('auth:api', ['except' => 
+            ['index', 'other_comments'] 
+        ]);
     }
 
     /**
@@ -23,9 +25,36 @@ class CommentController extends Controller
      */
     public function index($product)
     {
-        $comments = Product::findOrFail($product)->comments;
+        if (auth()->user()) {
+            $my_comments = Product::findOrFail($product)
+                                    ->my_comments;
+        } else {
+            return [];
+        }
 
-        return CommentResource::collection($comments);
+        return CommentResource::collection($my_comments);
+
+    }
+
+    public function other_comments(Request $request, $product)
+    {
+        $offset = $request->get('offset') - 1 ?? 0;
+        $limit = $request->get('limit') ?? 3;
+
+        if (auth()->user()) {
+            $comments = Product::findOrFail($product)
+                                ->other_comments()
+                                ->where('user_id', '<>', auth()->user()->id)
+                                ->get();
+        } else {
+            $comments = Product::findOrFail($product)
+                                ->other_comments;
+        }
+
+        $comments = json_decode(CommentResource::collection($comments)->toJson());
+
+        return array_slice($comments, $offset, $limit);
+
     }
 
     /**

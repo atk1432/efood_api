@@ -27,6 +27,7 @@ class ProductCollection extends JsonResource
             'rate' => $this->rate,
             'image' => $this->image,
             'description' => $this->description,
+            'comments' => count($this->comments),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

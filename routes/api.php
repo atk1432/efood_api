@@ -22,6 +22,7 @@ use App\Http\Controllers\CommentController;
 
 Route::apiResource('products', ProductController::class);
 Route::apiResource('products.comments', CommentController::class);
+Route::get('/products/{product}/other-comments', [CommentController::class, 'other_comments']);
 
 Route::apiResource('types', TypeController::class);
 

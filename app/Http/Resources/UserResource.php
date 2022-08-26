@@ -14,9 +14,16 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'name' => auth()->user()->id == $this->id ? 'You' : $this->name,
-            'image' => $this->image
-        ];
+        if (auth()->user()) {
+            return [
+                'name' => auth()->user()->id == $this->id ? 'You' : $this->name,
+                'image' => $this->image
+            ];
+        } else {
+            return [
+                'name' => $this->name,
+                'image' => $this->image
+            ];            
+        }
     }
 }
