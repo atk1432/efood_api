@@ -16,8 +16,6 @@ class AddCommentResponses extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
             $table->string('comment', 200);
-            $table->integer('like')->default(0);
-            $table->integer('dislike')->default(0);
             $table->integer('comment_id')->nullable();
             $table->integer('user_id');
             $table->integer('response_id')->nullable();

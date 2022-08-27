@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddComments extends Migration
+class CreateLikeComments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class AddComments extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('status_comments', function (Blueprint $table) {
             $table->id();
-            $table->string('comment', 200);
-            $table->integer('rate');
-            $table->integer('product_id');
+            $table->boolean('like');
             $table->integer('user_id');
+            $table->integer('comment_id');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class AddComments extends Migration
      */
     public function down()
     {
-        Schema::drop('comments');
+        Schema::dropIfExists('like_comments');
     }
 }
