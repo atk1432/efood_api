@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\UserSocial;
 
 
-class CommentResource extends JsonResource
+class ResponseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,11 +20,9 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->comment,
-            'rate' => $this->rate,
-            'like' => 0,
-            'dislike' => 0,
             'countResponse' => count($this->responses),
             'user' => new UserResource(UserSocial::find($this->user_id)),
+            'created_at' => $this->created_at
         ];
     }
 }

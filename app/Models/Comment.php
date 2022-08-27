@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Response;
+
 
 class Comment extends Model
 {
@@ -15,4 +17,9 @@ class Comment extends Model
         'product_id',
         'user_id'
     ];
+
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
+    }
 }

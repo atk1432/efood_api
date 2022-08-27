@@ -79,7 +79,7 @@ class CommentController extends Controller
             ])
         );
 
-        return [ 'success' => true ];
+        return new CommentResource($comment);
     }
 
     /**
