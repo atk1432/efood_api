@@ -17,12 +17,21 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
+        $econ = auth()->user() ? auth()->user()->econComment()
+                                ->where('comment_id', $this->id)
+                                ->first() : '';
+
+        if ($econ != '') {
+            $econ = $econ->like ? 'like' : 'dislike';
+        }
+
         return [
             'id' => $this->id,
             'comment' => $this->comment,
             'rate' => $this->rate,
-            'like' => 0,
-            'dislike' => 0,
+            'like' => count($this->like),
+            'dislike' => count($this->dislike),
+            'econ' => $econ,
             'countResponse' => count($this->responses),
             'user' => new UserResource(UserSocial::find($this->user_id)),
         ];

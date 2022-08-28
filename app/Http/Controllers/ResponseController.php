@@ -99,6 +99,6 @@ class ResponseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

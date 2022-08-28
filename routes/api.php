@@ -8,6 +8,7 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\EconController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,15 @@ Route::get('/products/{product}/other-comments', [CommentController::class, 'oth
 Route::apiResource('types', TypeController::class);
 Route::get('/responses/{id}/{db}', [ResponseController::class, 'index']);
 Route::post('/responses/{id}/{db}', [ResponseController::class, 'store']);
+
+
+Route::prefix('sendEcon')
+->controller(EconController::class)
+->group(function () {
+
+    Route::post('/{db}', 'send_econ');
+
+});
 
 
 Route::prefix('auth')

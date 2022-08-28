@@ -7,6 +7,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Comment;
+use App\Models\StatusComment;
 
 
 class UserSocial extends Authenticatable implements JWTSubject
@@ -46,5 +47,10 @@ class UserSocial extends Authenticatable implements JWTSubject
     public function comments() 
     {
         return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function econComment()
+    {
+        return $this->hasMany(StatusComment::class, 'user_id');
     }
 }
