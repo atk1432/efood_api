@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Comment;
 use App\Models\StatusComment;
+use App\Models\StatusResponse;
 
 
 class UserSocial extends Authenticatable implements JWTSubject
@@ -52,5 +53,9 @@ class UserSocial extends Authenticatable implements JWTSubject
     public function econComment()
     {
         return $this->hasMany(StatusComment::class, 'user_id');
+    }
+
+    public function econResponse() {
+        return $this->hasMany(StatusResponse::class, 'user_id');
     }
 }

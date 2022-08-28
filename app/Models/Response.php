@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\StatusResponse;
+
 
 class Response extends Model
 {
@@ -24,5 +26,17 @@ class Response extends Model
     public function responses() 
     {
         return $this->hasMany(Response::class);
+    }
+
+    public function like()
+    {
+        return $this->hasMany(StatusResponse::class)
+                    ->where('like', true);
+    }
+
+    public function dislike()
+    {
+        return $this->hasMany(StatusResponse::class)
+                    ->where('like', false);
     }
 }
