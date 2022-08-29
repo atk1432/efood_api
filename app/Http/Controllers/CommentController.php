@@ -67,7 +67,7 @@ class CommentController extends Controller
     {
         $validated = $request->validate([
             'comment' => 'required|max:200',
-            'rate' => 'required|min:1|max:5'
+            'rate' => 'required|min:1|max:5|integer'
         ]);
 
         $product = Product::findOrFail($product);
@@ -78,6 +78,14 @@ class CommentController extends Controller
                 'user_id' => auth()->user()->id
             ])
         );
+
+        $count = count($product->comments);
+        $rate = intval($validated['rate']);
+        $initial = $product->rate * ($count - 1);
+
+        $product->update(['rate' => 
+            round(($initial + $rate) / $count, 1)
+        ]);
 
         return new CommentResource($comment);
     }

@@ -17,7 +17,8 @@ class Product extends Model
         'name',
         'price',
         'image',
-        'description'
+        'description',
+        'rate'
     ];
 
     public static function findApi($id)

@@ -17,8 +17,8 @@ class ResponseResource extends JsonResource
      */
     public function toArray($request)
     {
-        $econ = auth()->user() ? auth()->user()->econComment()
-                                ->where('comment_id', $this->id)
+        $econ = auth()->user() ? auth()->user()->econResponse()
+                                ->where('response_id', $this->id)
                                 ->first() : '';
 
         if ($econ != '') {
