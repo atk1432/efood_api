@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLikeComments extends Migration
+class CreateUserInfos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateLikeComments extends Migration
      */
     public function up()
     {
-        Schema::create('status_comments', function (Blueprint $table) {
+        Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
-            $table->boolean('like');
-            $table->integer('user_id');
-            $table->integer('comment_id');
+            $table->string('phone');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('address');
+            $table->string('info_for_shipper')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateLikeComments extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_comments');
+        Schema::dropIfExists('user_infos');
     }
 }

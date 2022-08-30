@@ -9,6 +9,7 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\EconController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +24,17 @@ use App\Http\Controllers\EconController;
 
 
 Route::apiResource('products', ProductController::class);
+
 Route::apiResource('products.comments', CommentController::class);
 Route::get('/products/{product}/other-comments', [CommentController::class, 'other_comments']);
 
 Route::apiResource('types', TypeController::class);
+
 Route::get('/responses/{id}/{db}', [ResponseController::class, 'index']);
 Route::post('/responses/{id}/{db}', [ResponseController::class, 'store']);
 
+Route::apiResource('carts', CartController::class);
+Route::get('/carts-amount', [CartController::class, 'amount']);
 
 Route::prefix('sendEcon')
 ->controller(EconController::class)

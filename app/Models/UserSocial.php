@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Comment;
 use App\Models\StatusComment;
 use App\Models\StatusResponse;
+use App\Models\Cart;
 
 
 class UserSocial extends Authenticatable implements JWTSubject
@@ -57,5 +58,10 @@ class UserSocial extends Authenticatable implements JWTSubject
 
     public function econResponse() {
         return $this->hasMany(StatusResponse::class, 'user_id');
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'user_id');
     }
 }

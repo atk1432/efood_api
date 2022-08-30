@@ -29,6 +29,6 @@ class CreateLikeResponses extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('like_responses');
+        Schema::dropIfExists('status_responses');
     }
 }
