@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\EconController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,8 @@ Route::post('/responses/{id}/{db}', [ResponseController::class, 'store']);
 
 Route::apiResource('carts', CartController::class);
 Route::get('/carts-amount', [CartController::class, 'amount']);
+
+Route::apiResource('orders', OrderController::class);
 
 Route::prefix('sendEcon')
 ->controller(EconController::class)

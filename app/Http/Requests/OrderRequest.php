@@ -28,7 +28,7 @@ class OrderRequest extends CustomFormRequest
         return [
             'firstname' => 'required|max:100',
             'lastname' => 'required|max:100',
-            'phone' => 'required|integer',
+            'phone' => 'required',
             'address' => 'required|max:100',
             'info_for_shipper' => 'nullable|max:100',
             'products' => 'required'

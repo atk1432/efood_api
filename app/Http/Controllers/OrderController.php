@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\UserInfo;
 use App\Models\Cart;
-use App\Http\Request\OrderRequest;
+use App\Http\Requests\OrderRequest;
 
 
 class OrderController extends Controller
@@ -32,20 +32,23 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {   
         $validated = $request->validated();
+        $products = $validated['products'];
         $now = Carbon::now();
 
+        unset($validated['products']);
         $user_info = UserInfo::create($validated);
 
-        $products = $validated['products'];
+
+        if (!$products) abort(400);
 
         $validator = function ($data) {
             $validated = Validator::make($data, [
-                'product_id' => 'required|integer',
-                'amount' => 'required|integer:min:1'
+                'product_id' => 'required',
+                'amount' => 'required|integer|min:1'
             ]);
 
             if ($validated->stopOnFirstFailure()->fails()) {
-                return false
+                return false;
             }
 
             return true;
@@ -53,28 +56,28 @@ class OrderController extends Controller
         };
         
 
-        Cart::insert(array_map(function ($data) use ($now, $validator) {
+        Order::insert(array_map(function ($data) use ($now, $validator, $user_info) {
 
             // Check validation
-            if (!$validator($data) abort(400);
+            if (!$validator($data)) abort(400);
 
             return [
                 'user_info_id' => $user_info->id,
                 'user_id' => auth()->user()->id,
-                'product_id' => $data->product_id,
-                'amount' => $data->amount,
+                'product_id' => $data['product_id'],
+                'amount' => $data['amount'],
                 'created_at' => $now,
                 'updated_at' => $now
-            ]
+            ];
+
         }, $products));
 
-        Order::create([
-            'user_info_id' => $user_info->id,
-            'user_id' => auth()->user()->id,
-            'product_id' => 
-        ]);
 
-        return 
+        $carts = Cart::where(['user_id' => auth()->user()->id]);
+
+        $carts->delete();
+
+        return [ 'success' => true ];
     }
 
     /**

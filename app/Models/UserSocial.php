@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\StatusComment;
 use App\Models\StatusResponse;
 use App\Models\Cart;
+use App\Models\Order;
 
 
 class UserSocial extends Authenticatable implements JWTSubject
@@ -63,5 +64,10 @@ class UserSocial extends Authenticatable implements JWTSubject
     public function carts()
     {
         return $this->hasMany(Cart::class, 'user_id');
+    }
+
+    public function orders() 
+    {
+        return $this->hasMany(Order::class, 'user_id');
     }
 }
