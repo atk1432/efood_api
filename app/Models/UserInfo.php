@@ -16,4 +16,10 @@ class UserInfo extends Model
         'address',
         'info_for_shipper'
     ];
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at'
+    ];
 }

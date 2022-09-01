@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\UserInfo;
 use App\Models\Cart;
 use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
 
 
 class OrderController extends Controller
@@ -20,7 +21,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::where([
+            'user_id'  => auth()->user()->id
+        ])->get();
+
+        if (!$orders) return [];
+
+        return OrderResource::collection($orders);
     }
 
     /**
