@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\UserInfo;
 use App\Models\Cart;
 use App\Http\Requests\OrderRequest;
@@ -19,10 +20,13 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        $status = $request->get('status');
+
         $orders = Order::where([
-            'user_id'  => auth()->user()->id
+            'user_id'  => auth()->user()->id,
+            'status' => $status
         ])->get();
 
         if (!$orders) return [];
@@ -62,15 +66,20 @@ class OrderController extends Controller
 
         };
         
+        $order = Order::create([
+            'user_info_id' => $user_info->id,
+            'user_id' => auth()->user()->id
+        ]);
 
-        Order::insert(array_map(function ($data) use ($now, $validator, $user_info) {
+        OrderProduct::insert(array_map(function ($data) use (
+            $now, $validator, $user_info, $order
+        ) {
 
             // Check validation
             if (!$validator($data)) abort(400);
 
             return [
-                'user_info_id' => $user_info->id,
-                'user_id' => auth()->user()->id,
+                'order_id' => $order->id,
                 'product_id' => $data['product_id'],
                 'amount' => $data['amount'],
                 'created_at' => $now,

@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProductCollection;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\OrderProductResource;
 use App\Models\Product;
 use App\Models\UserInfo;
 
@@ -28,10 +30,9 @@ class OrderResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'product' => new ProductCollection(Product::find($this->product_id)),
             'user_info' => UserInfo::find($this->user_info_id),
-            'amount' => $this->amount,
             'status' => $status,
+            'products' => OrderProductResource::collection($this->products),
             'created_at' => $this->created_at
         ];
     }
